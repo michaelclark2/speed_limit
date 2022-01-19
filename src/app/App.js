@@ -3,6 +3,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import "./App.scss";
 import Connector from "../components/Connector/Connector";
 import { WalletProvider } from "./context/wallet";
+import Header from "../components/Header/Header";
 
 const getLibrary = (provider, connector) => {
   return new Web3Provider(provider);
@@ -11,11 +12,9 @@ const getLibrary = (provider, connector) => {
 function App() {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <div className="App">
-        <h1>Gas Station</h1>
-        <p>How much am I paying in transaction fees this week?</p>
+      <div className="App container-fluid">
         <WalletProvider>
-          <Connector />
+          <Header />
         </WalletProvider>
       </div>
     </Web3ReactProvider>
