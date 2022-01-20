@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import { getTransactionsByAddress } from "../../app/connectors/connector";
+import { getTransactionsByAddress } from "../../app/utils/connector";
 import { useWallet } from "../../app/context/wallet";
 import SingleTransaction from "./SingleTransaction";
 
 const Transactions = (props) => {
-  const { active, account, library } = useWallet();
+  const { active, account, chainId } = useWallet();
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    if (!active || !account) {
+    if (!active || !chainId) {
       return;
     }
-    getTransactionsByAddress(account)
+    getTransactionsByAddress(account, chainId)
       .then((transactions) => {
         setTransactions(transactions);
       })
       .catch((err) => console.error(err));
-  }, [account]);
+  }, [active, chainId]);
 
   const allTransactions = () => {
     return transactions.map((tx) => <SingleTransaction transaction={tx} />);

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 const WalletContext = createContext({});
@@ -6,6 +6,13 @@ const WalletContext = createContext({});
 export const WalletProvider = ({ children }) => {
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
+  const [chainId, setChainId] = useState(0);
+
+  if (connector) {
+    library.getNetwork().then((network) => {
+      setChainId(network.chainId);
+    });
+  }
 
   const connect = async (provider) => {
     try {
@@ -30,6 +37,7 @@ export const WalletProvider = ({ children }) => {
     account,
     library,
     connector,
+    chainId,
   };
 
   return (
