@@ -13,7 +13,6 @@ const Transactions = (props) => {
     }
     getTransactionsByAddress(account)
       .then((transactions) => {
-        console.log(transactions);
         setTransactions(transactions);
       })
       .catch((err) => console.error(err));
