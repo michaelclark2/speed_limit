@@ -4,6 +4,7 @@ import "./App.scss";
 import Connector from "../components/Connector/Connector";
 import { WalletProvider } from "./context/wallet";
 import Header from "../components/Header/Header";
+import Transactions from "../components/Transactions/Transactions";
 
 const getLibrary = (provider, connector) => {
   return new Web3Provider(provider);
@@ -15,6 +16,7 @@ function App() {
       <div className="App container-fluid">
         <WalletProvider>
           <Header />
+          <Transactions />
         </WalletProvider>
       </div>
     </Web3ReactProvider>
