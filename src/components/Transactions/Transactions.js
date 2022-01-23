@@ -16,7 +16,7 @@ const Transactions = (props) => {
         setTransactions(transactions);
       })
       .catch((err) => console.error(err));
-  }, [active, chainId]);
+  }, [active, account, chainId]);
 
   const allTransactions = () => {
     return transactions.map((tx) => <SingleTransaction transaction={tx} />);
