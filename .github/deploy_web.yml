@@ -1,0 +1,19 @@
+name: Deploy to S3 Bucket
+
+on: [workflow_trigger, push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js LTS
+        uses: actions/setup-node@v1
+
+      - name: Build and deploy
+        run: |
+          npm install
+          npm run build
+          make deploy
