@@ -8,7 +8,7 @@ export const WalletProvider = ({ children }) => {
     useWeb3React();
   const [chainId, setChainId] = useState(0);
 
-  if (connector) {
+  if (active) {
     library.getNetwork().then((network) => {
       setChainId(network.chainId);
     });
