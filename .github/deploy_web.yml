@@ -16,6 +16,7 @@ jobs:
           cache: "npm"
 
       - run: npm install
+
       - name: Build and deploy
           npm run build
           make deploy
