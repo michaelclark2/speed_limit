@@ -1,6 +1,6 @@
 name: Deploy to S3 Bucket
 
-on: [workflow_trigger, push]
+on: [workflow_dispatch, push]
 
 jobs:
   build:
