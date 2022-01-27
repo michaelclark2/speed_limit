@@ -1,18 +1,26 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
+import { chains } from "eth-chains";
 
 const WalletContext = createContext({});
 
 export const WalletProvider = ({ children }) => {
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
-  const [chainId, setChainId] = useState(0);
+  const [network, setNetwork] = useState(0);
 
-  if (active) {
-    library.getNetwork().then((network) => {
-      setChainId(network.chainId);
+  const getNetwork = () => {
+    library.getNetwork().then(({ chainId }) => {
+      const network = chains.getById(chainId);
+      setNetwork(network);
     });
-  }
+  };
+
+  useEffect(() => {
+    if (active) {
+      getNetwork();
+    }
+  }, [library]);
 
   const connect = async (provider) => {
     try {
@@ -37,7 +45,7 @@ export const WalletProvider = ({ children }) => {
     account,
     library,
     connector,
-    chainId,
+    network,
   };
 
   return (
