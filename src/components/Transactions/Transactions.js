@@ -15,7 +15,9 @@ const Transactions = (props) => {
       .then((transactions) => {
         setTransactions(transactions);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+      });
   }, [active, account, chainId]);
 
   const allTransactions = () => {
@@ -35,7 +37,7 @@ const Transactions = (props) => {
               <th>Tx Fee</th>
             </tr>
           </thead>
-          {allTransactions()}
+          {transactions.length > 0 ? allTransactions() : ""}
         </table>
       )}
     </div>
