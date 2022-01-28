@@ -12,7 +12,7 @@ const Transactions = (props) => {
     if (!active) {
       return;
     }
-  }, [active, account, network.chainId]);
+  }, [active]);
 
   const allTransactions = () => {
     return transactions.map((tx) => <SingleTransaction transaction={tx} />);
