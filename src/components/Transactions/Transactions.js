@@ -4,14 +4,14 @@ import SingleTransaction from "./SingleTransaction";
 import AddUserKey from "../UserKeys/AddUserKey";
 
 const Transactions = (props) => {
-  const { active, account, network, explorer, explorerApiKeyRequired } =
-    useWallet();
+  const { active, explorerApiKeyRequired } = useWallet();
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     if (!active) {
       return;
     }
+    setTransactions([]);
   }, [active]);
 
   const allTransactions = () => {
