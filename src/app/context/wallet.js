@@ -1,18 +1,23 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { chains } from "eth-chains";
+import { getApiKeyByChainId } from "../utils/user";
 
 const WalletContext = createContext({});
 
 export const WalletProvider = ({ children }) => {
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
-  const [network, setNetwork] = useState(0);
+  const [network, setNetwork] = useState({});
+  const [explorer, setExplorer] = useState({});
+  const [explorerApiKey, setExplorerApiKey] = useState("");
+  const [explorerApiKeyRequired, setExplorerApiKeyRequired] = useState(true);
 
   const getNetwork = () => {
     library.getNetwork().then(({ chainId }) => {
       const network = chains.getById(chainId);
       setNetwork(network);
+      setExplorer(network.explorers[0]);
     });
   };
 
@@ -20,7 +25,26 @@ export const WalletProvider = ({ children }) => {
     if (active) {
       getNetwork();
     }
-  }, [library]);
+  });
+
+  useEffect(() => {
+    const getExplorerApiKey = () => {
+      if (explorer.standard === "none") {
+        setExplorerApiKey("");
+        setExplorerApiKeyRequired(false);
+        return;
+      }
+      if (active && explorerApiKeyRequired) {
+        const apiKey = getApiKeyByChainId(account, network.chainId);
+        setExplorerApiKey(apiKey);
+        setExplorerApiKeyRequired(true);
+      }
+    };
+
+    if (active && network.chainId) {
+      getExplorerApiKey();
+    }
+  }, [active, network]);
 
   const connect = async (provider) => {
     try {
@@ -33,6 +57,8 @@ export const WalletProvider = ({ children }) => {
   const disconnect = async (provider) => {
     try {
       await deactivate(provider);
+      setNetwork({});
+      setExplorer({});
     } catch (ex) {
       console.error(ex);
     }
@@ -46,6 +72,8 @@ export const WalletProvider = ({ children }) => {
     library,
     connector,
     network,
+    explorer,
+    explorerApiKeyRequired,
   };
 
   return (

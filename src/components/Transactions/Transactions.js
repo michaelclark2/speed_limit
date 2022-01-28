@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
-import { getTransactionsByAddress } from "../../app/utils/connector";
+import { useState, useEffect } from "react";
 import { useWallet } from "../../app/context/wallet";
 import SingleTransaction from "./SingleTransaction";
+import AddUserKey from "../UserKeys/AddUserKey";
 
 const Transactions = (props) => {
-  const { active, account, chainId } = useWallet();
+  const { active, account, network, explorer, explorerApiKeyRequired } =
+    useWallet();
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    if (!active || !chainId) {
+    if (!active) {
       return;
     }
-    getTransactionsByAddress(account, chainId)
-      .then((transactions) => {
-        setTransactions(transactions);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [active, account, chainId]);
+  }, [active, account, network.chainId]);
 
   const allTransactions = () => {
     return transactions.map((tx) => <SingleTransaction transaction={tx} />);
   };
 
-  return (
+  return explorerApiKeyRequired ? (
+    <AddUserKey />
+  ) : (
     <div className="Transactions container">
       {!active ? (
         <p>Connect your wallet to see transactions</p>
