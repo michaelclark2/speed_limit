@@ -44,7 +44,14 @@ export const WalletProvider = ({ children }) => {
     if (active && network.chainId) {
       getExplorerApiKey();
     }
-  }, [active, network]);
+  }, [
+    active,
+    account,
+    explorer,
+    network,
+    explorerApiKey,
+    explorerApiKeyRequired,
+  ]);
 
   const connect = async (provider) => {
     try {
