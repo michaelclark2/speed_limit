@@ -1,6 +1,9 @@
 name: Deploy to S3 Bucket
 
-on: [workflow_dispatch, push]
+on:
+  workkflow_dispatch:
+  push:
+    branches: main
 
 jobs:
   build:
