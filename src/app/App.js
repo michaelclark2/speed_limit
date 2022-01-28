@@ -12,12 +12,12 @@ const getLibrary = (provider, connector) => {
 function App() {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <div className="App container-fluid">
-        <WalletProvider>
+      <WalletProvider>
+        <div className="App container-fluid">
           <Header />
           <Transactions />
-        </WalletProvider>
-      </div>
+        </div>
+      </WalletProvider>
     </Web3ReactProvider>
   );
 }
